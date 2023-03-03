@@ -4,7 +4,8 @@ const _ = require('lodash')
 const resolvers = {
     Query: {
         users: () => {
-            return UserList
+            // This small trick is useful to sort Array by key here we sort it by id, Higher-Lower
+            return UserList.sort( (a,b) => b.id - a.id );
         },
         user: (parent, args) => {
             const id = args.id
@@ -36,7 +37,9 @@ const resolvers = {
     Mutation: {
         createUser: (parent, args) => {
             const user = args.input
-            const lastid = UserList[UserList.length - 1].id
+            // const lastid = UserList[UserList.length - 1].id
+            // As we are getting Users in High-Low order so first one will be highest so we add 1 more to its id 
+            const lastid = UserList[0].id
             user.id = lastid + 1
             UserList.push(user)
             return user

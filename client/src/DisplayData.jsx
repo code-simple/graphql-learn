@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useQuery, useLazyQuery, gql } from "@apollo/client"
+import React, { useEffect, useState } from "react";
+import { useQuery, useLazyQuery, gql, useMutation } from "@apollo/client"
+
 
 const QUERY_ALL_USERS = gql`
     query GetAllUsers{
@@ -44,11 +45,25 @@ const GET_USER_BY_ID = gql`
     }
   }
 `
+const CREATE_USER_MUTATION = gql`
+      mutation CreateUser($input:CreateUserInput!){
+        createUser(input:$input){
+          name
+          id
+        }
+      }
+
+`
+
+
 
 export function DisplayMovies() {
   const { data: moviesdata, loading: moviesloading } = useQuery(QUERY_ALL_MOVIES)
   const [smovie, setSmovie] = useState('')
   const [fetchMovie, { data: moviesearchdata, error: movieError }] = useLazyQuery(GET_MOVIE_BY_NAME)
+
+
+
   if (moviesdata) {
   }
   if (moviesloading) return <h1>Movies Loading...</h1>
@@ -96,10 +111,31 @@ export function DisplayMovies() {
 
 export function DisplayData() {
   const [fetchUser, { data: userSearchData, error: userError }] = useLazyQuery(GET_USER_BY_ID)
-  const { data: usersdata, loading: usersloading } = useQuery(QUERY_ALL_USERS)
+  const { data: usersdata, loading: usersloading ,refetch:userRefecth} = useQuery(QUERY_ALL_USERS)
+  const [name,setName] = useState('')
+  const [username,setUsername] = useState('')
+  const [age,setAge] = useState(0)
+  const [nationality,setNationality] = useState('')
   const [userId, setUserId] = useState('')
-  if (usersdata) {
+  const [createUser] = useMutation(CREATE_USER_MUTATION)
 
+  function newUser(){
+    createUser({
+      variables:{
+        input:{
+          name,
+          username,
+          age,
+          nationality
+        }
+      }
+    })
+    userRefecth()
+  }
+
+
+  if (usersdata) {
+    
   }
   if (usersloading) return <h1>Users Loading...</h1>
 
@@ -113,15 +149,16 @@ export function DisplayData() {
     }
   }
 
+
   return (
     <div className="dataContainer">
       <input type='text' placeholder="Search User" onChange={(e) => setUserId(e.target.value)} onKeyDown={enterSearch} />
       <br></br>
-      <input type='text' placeholder="Enter name"></input>
-      <input type='text' placeholder="Enter username"></input>
-      <input type='number' placeholder="Enter Age"></input>
-      <input type='text' placeholder="Eter Nationality e.g PAKISTAN"></input>
-      <button>Create New User</button>
+      <input type='text' placeholder="Enter name" onChange={(e)=>{setName(e.target.value)}}/>
+      <input type='text' placeholder="Enter username" onChange={(e)=>{setUsername(e.target.value)}}/>
+      <input type='number' placeholder="Enter Age" onChange={(e)=>{setAge(Number(e.target.value))}}/>
+      <input type='text' placeholder="Eter Nationality e.g PAKISTAN" onChange={(e)=>{setNationality(e.target.value.toUpperCase())}}/>
+      <button onClick={newUser}>Create New User</button>
       <h1>List of Users</h1>
       <div className="cardcontainer">
       {userSearchData ?
