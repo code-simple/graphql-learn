@@ -1,15 +1,23 @@
 .card{
-  width: 400px;
-  padding:10px;
+  margin: 10px;  
+  width: 180px;
+  padding: 2.5em;
   background: white;
   margin-bottom: 10px;
   color:black;
-  border-radius: 100px;
+  border-radius: 50%;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-size: 15px;
   box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  justify-content: center;
 }
-
+.card :first-letter{
+text-transform: capitalize;
+}
+.cardcontainer{
+  display: flex;
+  justify-content: center;
+}
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -45,10 +53,23 @@
   }
 }
 
-.card {
-  padding: 2em;
-}
+
 
 .read-the-docs {
   color: #888;
+}
+
+input{
+  background: white;
+  padding: 0.5em;
+  color:black;
+  border-radius: 0.5em;
+  margin: 0.5em;
+  border: 0.3em solid black;
+  outline: none;
+  transition: 0.5s;
+  
+}
+input:focus{
+  border:0.3em solid red;
 }

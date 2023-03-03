@@ -1,5 +1,8 @@
 const { gql } = require("apollo-server");
 const typeDefs = gql`
+
+
+
     type User {
         id:ID!
         name:String!
@@ -50,6 +53,8 @@ const typeDefs = gql`
     movies:[Movie]
     movie(name:String!):Movie!
     }
+
+   
 `
 
 module.exports = { typeDefs }

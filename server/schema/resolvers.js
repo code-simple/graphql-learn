@@ -23,6 +23,10 @@ const resolvers = {
         },
 
     },
+    // Movie: {
+    //     name: (movie) => movie.name.toLowerCase()
+    // },
+
     // creating resolver for User, it will return specific list of movies
     User: {
         favoriteMovie: () => {
