@@ -1,6 +1,6 @@
 import '../App.css'
 
-const UserList = ({usersdata,userSearchData})=>{
+const UserList = ({usersdata,userSearchData,deleteUser})=>{
     return(
         <div className="cardcontainer">
           <h1>List of Users</h1>
@@ -18,6 +18,7 @@ const UserList = ({usersdata,userSearchData})=>{
             <p>Username : {user.username}</p>
             <p>Age : {user.age}</p>
             <p>Nationality : {user.nationality}</p>
+            <button onClick={()=>{deleteUser(user.id)}}>Delete</button>
           </div>
         )
       })}

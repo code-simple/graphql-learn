@@ -52,3 +52,10 @@ export const CREATE_USER_MUTATION = gql`
       }
 
 `
+export const DELETE_USER_BY_ID = gql`
+mutation($id: ID!){
+  deleteUser(id: $id) {
+    id
+  }
+}
+`

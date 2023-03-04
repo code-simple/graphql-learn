@@ -9,6 +9,7 @@ export function DisplayMovies() {
   const [smovie, setSmovie] = useState('')
   const [fetchMovie, { data: moviesearchdata, error: movieError }] = useLazyQuery(mygql.GET_MOVIE_BY_NAME)
 
+
   
   if (moviesloading) return <h1>Movies Loading...</h1>
   // No need for Button. just press enter key to search
@@ -38,6 +39,7 @@ export function DisplayMovies() {
 export function DisplayData() {
   const [fetchUser, { data: userSearchData, error: userError }] = useLazyQuery(mygql.GET_USER_BY_ID)
   const { data: usersdata, loading: usersloading ,refetch:userRefecth} = useQuery(mygql.QUERY_ALL_USERS)
+  const [deleteuser] = useMutation(mygql.DELETE_USER_BY_ID)
   const [name,setName] = useState('')
   const [username,setUsername] = useState('')
   const [age,setAge] = useState(0)
@@ -54,6 +56,16 @@ export function DisplayData() {
     })
     userRefecth()
   }
+
+  function deleteUser(id){
+    deleteuser({
+      variables:{
+        id
+      }
+    })
+    userRefecth()
+  }
+
 
   if (usersdata) {
 
@@ -79,7 +91,7 @@ export function DisplayData() {
       <input type='text' placeholder="Eter Nationality e.g PAKISTAN" onChange={(e)=>{setNationality(e.target.value.toUpperCase())}}/>
       <button onClick={newUser}>Create New User</button>
       {/* All Users */}
-      <UserList usersdata={usersdata} userSearchData={userSearchData}/>
+      <UserList usersdata={usersdata} userSearchData={userSearchData} deleteUser={deleteUser}/>
     </div>
   )
 }

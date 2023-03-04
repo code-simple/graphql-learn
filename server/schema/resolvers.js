@@ -39,8 +39,15 @@ const resolvers = {
             const user = args.input
             // const lastid = UserList[UserList.length - 1].id
             // As we are getting Users in High-Low order so first one will be highest so we add 1 more to its id 
-            const lastid = UserList[0].id
-            user.id = lastid + 1
+            
+            // Check for empty list first its its empty first id will be 1
+            if(UserList.length!=0){
+                const lastid = UserList[0].id
+                user.id = lastid + 1
+            }else{
+                user.id = 1
+            }
+            
             UserList.push(user)
             return user
         },
